@@ -10,14 +10,12 @@ def hamming_bits(a,b):
     bits(a,b)
     return sum(ch_a != ch_b for ch_a, ch_b in zip(a, b))
 
-
 def world_to_camera(P_w,R_cw,t_cw):
     """T2: (N,3), (3,3), (3,) -> camera points (N,3), same length unit.
     Remember: formula uses column vectors; the array stores points by ROW.
     """
     P_w=points(P_w,3);R_cw=matrix(R_cw,(3,3),'R_cw');t_cw=translation(t_cw)
     return P_w @ R_cw.T + t_cw
-
 
 def project_pinhole(P_c,K):
     """T3: camera points (N,3), K (3,3) -> pixels (N,2).
@@ -28,7 +26,6 @@ def project_pinhole(P_c,K):
     u = K[0,0] * P_c[:,0] / P_c[:,2] + K[0,2]
     v = K[1,1] * P_c[:,1] / P_c[:,2] + K[1,2]
     return np.column_stack((u, v))
-
 
 def reprojection_scores(observed,predicted):
     """T4: (N,2), (N,2) -> dictionary with exactly these meanings:
@@ -51,7 +48,6 @@ def reprojection_scores(observed,predicted):
         'pixel_rmse': pixel_rmse,
     }
 
-
 def match_orb_descriptors(des1,des2):
     """T5: default ORB descriptors -> distance-sorted list of cv2.DMatch.
     WTA_K=2; Hamming norm; crossCheck=True. None/empty -> [] (already handled).
@@ -63,7 +59,6 @@ def match_orb_descriptors(des1,des2):
     matcher = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
     matches = matcher.match(des1, des2)
     return sorted(matches, key=lambda m: m.distance)
-
 
 def recover_one_pose(E,pts1,pts2,K,mask=None):
     """T6: one (3,3) essential-matrix candidate -> OpenCV result tuple.
